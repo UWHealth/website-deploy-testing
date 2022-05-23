@@ -34,6 +34,6 @@ jobs:
           environment-url: ${{ steps.wait-for-deploy.outputs.url }}
           environment: deploy-preview
           description: Netlify Deploy Preview
-          required-contexts: []
+          required-contexts:
           initial-status: ${{ steps.deployment-status.outputs.result }}
           auto-inactive: false
