@@ -24,7 +24,7 @@ jobs:
         with:
           result-encoding: string
           script: |
-            return ( steps.wait-for-deploy.conclusion == 'success' && steps.wait-for-deploy.outcome == 'success' ) ? "success"" : "failure"
+            return ( '${{steps.wait-for-deploy.conclusion}}' == 'success' && '${{steps.wait-for-deploy.outcome}}' == 'success' ) ? "success" : "failure"
 
       - uses: chrnorm/deployment-action@v2
         name: Create GitHub deployment
