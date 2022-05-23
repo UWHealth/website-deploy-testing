@@ -1,4 +1,4 @@
-name: End
+name: Calibre
 
 on:
   workflow_dispatch:
@@ -6,7 +6,7 @@ on:
     branches: [develop]
 
 jobs:
-  Calibre-Deploy:
+  Set-Deployment:
     runs-on: ubuntu-latest
 
     steps:
