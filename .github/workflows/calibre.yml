@@ -1,0 +1,46 @@
+name: Calibre
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [develop]
+
+jobs:
+  Set-Deployment:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Wait for Netlify Deployment
+        uses: UWHealth/wait-for-netlify-action@v5
+        id: wait-for-deploy
+        continue-on-error: true
+        with:
+          site_id: ${{ secrets.NETLIFY_SITE_ID }}
+        env:
+          NETLIFY_TOKEN: ${{ secrets.NETLIFY_TOKEN }}
+
+      - uses: actions/github-script@v6
+        id: deployment-status
+        with:
+          result-encoding: string
+          script: |
+            return ( '${{steps.wait-for-deploy.conclusion}}' == 'success' && '${{steps.wait-for-deploy.outcome}}' == 'success' ) ? "success" : "failure"
+
+      - uses: actions/github-script@v6
+        id: deployment-url
+        with:
+          result-encoding: string
+          script: |
+            return ( '${{steps.wait-for-deploy.conclusion}}' == 'success' && '${{steps.wait-for-deploy.outcome}}' == 'success' ) ? '${{ steps.wait-for-deploy.outputs.url }}' : ""
+
+      - uses: chrnorm/deployment-action@v2
+        name: Create GitHub deployment
+        id: deployment
+        with:
+          token: '${{ github.token }}'
+          environment-url: ${{ steps.deployment-url.outputs.result }}
+          environment: deploy-preview
+          description: Netlify Deploy Preview
+          required-contexts:
+          initial-status: ${{ steps.deployment-status.outputs.result }}
+          auto-inactive: false
