@@ -24,14 +24,21 @@ jobs:
         with:
           result-encoding: string
           script: |
-            return ( '${{steps.wait-for-deploy.conclusion}}' == 'success' && '${{steps.wait-for-deploy.outcome}}' == 'success' ) ? "success" : "error"
+            return ( '${{steps.wait-for-deploy.conclusion}}' == 'success' && '${{steps.wait-for-deploy.outcome}}' == 'success' ) ? "success" : "failure"
+
+      - uses: actions/github-script@v6
+        id: deployment-url
+        with:
+          result-encoding: string
+          script: |
+            return ( '${{steps.wait-for-deploy.conclusion}}' == 'success' && '${{steps.wait-for-deploy.outcome}}' == 'success' ) ? '${{ steps.wait-for-deploy.outputs.url }}' : ""
 
       - uses: chrnorm/deployment-action@v2
         name: Create GitHub deployment
         id: deployment
         with:
           token: '${{ github.token }}'
-          environment-url: ${{ steps.wait-for-deploy.outputs.url }}
+          environment-url: ${{ steps.deployment-url.outputs.result }}
           environment: deploy-preview
           description: Netlify Deploy Preview
           required-contexts:
