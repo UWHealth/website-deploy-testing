@@ -54,11 +54,11 @@ jobs:
             :stop_sign: @calibreapp stop
           GITHUB_TOKEN: ${{ github.token }}
 
-      - name: PR comment run calibre
-        uses: thollander/actions-comment-pull-request@v1
-        if: ${{ (steps.wait-for-deploy.conclusion == 'success' && steps.wait-for-deploy.outcome == 'success') }}
-        id: calibre-run
-        with:
-          message: |
-            :runner: @calibreapp run
-          GITHUB_TOKEN: ${{ github.token }}
+      # - name: PR comment run calibre
+      #   uses: thollander/actions-comment-pull-request@v1
+      #   if: ${{ (steps.wait-for-deploy.conclusion == 'success' && steps.wait-for-deploy.outcome == 'success') }}
+      #   id: calibre-run
+      #   with:
+      #     message: |
+      #       :runner: @calibreapp run
+      #     GITHUB_TOKEN: ${{ github.token }}
