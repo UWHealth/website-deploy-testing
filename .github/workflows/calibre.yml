@@ -9,7 +9,16 @@ jobs:
   Set-Deployment:
     runs-on: ubuntu-latest
 
-    steps:        
+    steps:
+      - name: PR comment stop calibre
+        uses: thollander/actions-comment-pull-request@v1
+        # if: ${{ (steps.wait-for-deploy.conclusion != 'success' || steps.wait-for-deploy.outcome != 'success') }}
+        id: calibre-stop
+        with:
+          message: |
+            :stop_sign: @calibreapp stop
+          GITHUB_TOKEN: ${{ github.token }}
+
       - name: Wait for Netlify Deployment
         uses: UWHealth/wait-for-netlify-action@v5
         id: wait-for-deploy
@@ -45,14 +54,7 @@ jobs:
           initial-status: ${{ steps.deployment-status.outputs.result }}
           auto-inactive: false
 
-      - name: PR comment stop calibre
-        uses: thollander/actions-comment-pull-request@v1
-        if: ${{ (steps.wait-for-deploy.conclusion != 'success' || steps.wait-for-deploy.outcome != 'success') }}
-        id: calibre-stop
-        with:
-          message: |
-            :stop_sign: @calibreapp stop
-          GITHUB_TOKEN: ${{ github.token }}
+
 
       # - name: PR comment run calibre
       #   uses: thollander/actions-comment-pull-request@v1
