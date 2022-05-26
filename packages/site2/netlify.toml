@@ -1,0 +1,7 @@
+[build]
+  ignore = "echo $CACHED_COMMIT_REF && echo $COMMIT_REF && git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF ."
+  command = "echo "
+  base = "packages/site2"
+  publish = "out"
+  functions = "serverless"
+  
