@@ -1,6 +1,6 @@
 [build]
   ignore = "echo $CACHED_COMMIT_REF && echo $COMMIT_REF && git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF ."
-  command = "echo 'Site 2 only finishes'"
+  command = "echo 'Onyl Site 2 should deploy preview'"
   base = "packages/site2"
   publish = "out"
   functions = "serverless"
