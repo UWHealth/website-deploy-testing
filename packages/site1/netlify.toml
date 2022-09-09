@@ -1,8 +1,10 @@
 [build]
 #  ignore = "echo $CACHED_COMMIT_REF && echo $COMMIT_REF && git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF ."
-  command = "echo 'fake build'"
+  ignore = "exit 1"
 #  command = "sleep 1m && echo 'Site 1 finishes last'"
+  command = "echo $CACHED_COMMIT_REF && echo $COMMIT_REF"
   base = "packages/site1"
   publish = "out"
   functions = "serverless"
+
   
