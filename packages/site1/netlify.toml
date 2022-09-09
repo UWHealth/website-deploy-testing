@@ -6,3 +6,5 @@
   base = "packages/site1"
   publish = "out"
   functions = "serverless"
+
+  
