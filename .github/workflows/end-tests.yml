@@ -3,16 +3,18 @@
 
 name: End
 
-on: workflow_dispatch
-  # pull_request:
-  #   types: [opened, reopened, synchronize, ready_for_review]
-#    branches: [ develop, main ]
+on:
+  workflow_dispatch:
+  pull_request:
+    types: [opened, reopened, synchronize, ready_for_review]
+    branches: [ develop, main ]
+
 env:
   COMMIT_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
   BRANCH: ${{ github.event_name == 'pull_request' && format('refs/heads/{0}', github.event.pull_request.head.ref) || github.ref }}
 
 concurrency:
-  group: ci-tests-${{ env.BRANCH }}-1
+  group: ci-tests-${{ github.event_name == 'pull_request' && format('refs/heads/{0}', github.event.pull_request.head.ref) || github.ref }}-1
   cancel-in-progress: true
 
 jobs:
