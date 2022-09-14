@@ -18,14 +18,16 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  isActivePR:
-    uses: ./.github/workflows/active-pr-check.yml
+  # isActivePR:
+  #   uses: ./.github/workflows/active-pr-check.yml
 
   # This job will not run if the isActivePR failed or if its "activePR" output is "false"
   Tests:
     runs-on: ubuntu-latest
     needs: [isActivePR]
-    if: needs.isActivePR.outputs.activePR == 'true'
+    # github.event_name == 'pull_request' && !github.event.pull_request.draft
+    # if: needs.isActivePR.outputs.activePR == 'true'
+    if: github.event_name == 'pull_request' && !github.event.pull_request.draft
     steps:
       - name: show branch and commit
         id: show-branch-commit
@@ -34,7 +36,8 @@ jobs:
   NoTests:
     runs-on: ubuntu-latest
     needs: [isActivePR]
-    if: needs.isActivePR.outputs.activePR == 'false'
+    # if: needs.isActivePR.outputs.activePR == 'false'
+    if: github.event_name != 'pull_request' || github.event.pull_request.draft
     steps:
       - name: show branch and commit
         id: show-branch-commit
