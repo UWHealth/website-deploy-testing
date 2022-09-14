@@ -6,7 +6,7 @@ on:
     branches: [ develop, main ]
 
 jobs:
-  Set Draft:
+  Set-Draft:
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request' && !github.event.pull_request.draft
     steps:
