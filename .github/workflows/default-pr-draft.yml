@@ -5,8 +5,6 @@ on:
     types: [opened, reopened]
     branches: [ develop, main ]
 
-permissions: write-all
-
 jobs:
   Set-Draft:
     runs-on: ubuntu-latest
@@ -15,4 +13,4 @@ jobs:
       - name: Mark as draft
         uses: voiceflow/draft-pr@latest
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PAT_TOKEN }}
