@@ -6,7 +6,7 @@ name: End
 on:
   workflow_dispatch:
   pull_request:
-    types: [opened, reopened, synchronize, ready_for_review]
+    types: [ synchronize, ready_for_review]
     branches: [ develop, main ]
 
 env:
