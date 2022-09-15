@@ -1,4 +1,4 @@
-name: Enforce Draft PR
+name: Initial PR as Draft
 
 on:
   pull_request:
@@ -6,11 +6,11 @@ on:
     branches: [ develop, main ]
 
 jobs:
-  Set-Draft:
+  Set:
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request' && !github.event.pull_request.draft
     steps:
       - name: Mark as draft
         uses: voiceflow/draft-pr@latest
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PAT_TOKEN }}
