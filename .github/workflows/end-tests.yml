@@ -6,7 +6,7 @@ name: End
 on:
   workflow_dispatch:
   pull_request:
-    types: [opened, reopened, synchronize, ready_for_review]
+    types: [ synchronize, ready_for_review]
     branches: [ develop, main ]
 
 env:
@@ -31,15 +31,15 @@ jobs:
     steps:
       - name: show branch and commit
         id: show-branch-commit
-        run: "echo 'Active PR and Branch: ${{ env.BRANCH }}, COMMIT: ${{ env.COMMIT_SHA }}'"
+        run: "echo 'Active PR tests would happen Branch: ${{ env.BRANCH }}, COMMIT: ${{ env.COMMIT_SHA }}'"
 
-  NoTests:
-    runs-on: ubuntu-latest
-    # needs: [isActivePR]
-    # if: needs.isActivePR.outputs.activePR == 'false'
-    if: github.event_name != 'pull_request' || github.event.pull_request.draft
-    steps:
-      - name: show branch and commit
-        id: show-branch-commit
-        run: "echo 'No Active PR Branch: ${{ env.BRANCH }}, COMMIT: ${{ env.COMMIT_SHA }}'"
+  # NoTests:
+  #   runs-on: ubuntu-latest
+  #   # needs: [isActivePR]
+  #   # if: needs.isActivePR.outputs.activePR == 'false'
+  #   if: github.event_name != 'pull_request' || github.event.pull_request.draft
+  #   steps:
+  #     - name: show branch and commit
+  #       id: show-branch-commit
+  #       run: "echo 'No Active PR Branch: ${{ env.BRANCH }}, COMMIT: ${{ env.COMMIT_SHA }}'"
       
