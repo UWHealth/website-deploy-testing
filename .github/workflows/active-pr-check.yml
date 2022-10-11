@@ -1,0 +1,24 @@
+# active pr checker
+
+name: Active PR Check
+
+on:
+  workflow_call:
+    outputs:
+      activePR:
+        description: "Returns true string if pull request and is not a draft, false string otherwise."
+        value: ${{ jobs.check.outputs.activePR }}
+
+jobs:
+  check:
+    name: Active PR Check
+    runs-on: ubuntu-latest
+    # Map the job outputs to step outputs
+    outputs:
+      isDraft: ${{ steps.step1.outputs.activePR ||  steps.step2.outputs.activePR }}
+    steps:
+      - id: step1
+        if: github.event_name == 'pull_request' && !github.event.pull_request.draft
+        run: echo "::set-output name=activePR::true"
+      - id: step2
+        run: echo "::set-output name=activePR::false"
