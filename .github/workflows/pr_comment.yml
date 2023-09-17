@@ -1,0 +1,17 @@
+name: PR Comment
+on:
+  issue_comment:
+    types: [created, edited]
+
+jobs:
+  pr_commented:
+    # This job only runs for pull request comments
+    name: PR comment
+    if: ${{ github.event.issue.pull_request  }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo A comment on PR $NUMBER and github app slug is ${{github.event.issue_comment.comment.performed_via_github_app.slug }}
+        env:
+          NUMBER: ${{ github.event.issue.number }}    
+  
