@@ -1,0 +1,22 @@
+name: Display Deployment Details
+
+on: 
+    deployment_status
+
+jobs:
+    display:
+        name: Output Deploy Status Information
+        runs-on: ubuntu-latest
+        steps:
+            -   name: Output Display
+                id: output-display
+                run: |
+                    echo "state=${{github.event.deployment_status.state}}" >> $GITHUB_OUTPUT
+                    echo "environment=${{github.event.deployment_status.environment}}" >> $GITHUB_OUTPUT
+                    echo "log_url=${{github.event.deployment_status.log_url}}" >> $GITHUB_OUTPUT
+                    echo "environment_url=${{github.event.deployment_status.environment_url}}" >> $GITHUB_OUTPUT
+                    echo "description=${{github.event.deployment_status.description}}" >> $GITHUB_OUTPUT
+                    echo "deployment_task=${{github.event.deployment.task}}" >> $GITHUB_OUTPUT
+                    echo "deployment_prod_environment=${{github.event.deployment.production_environment}}" >> $GITHUB_OUTPUT
+                    echo "deployment_description=${{github.event.deployment.description}}" >> $GITHUB_OUTPUT                    
+                    echo $GITHUB_OUTPUT >> $GITHUB_STEP_SUMMARY
