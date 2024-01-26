@@ -18,5 +18,4 @@ jobs:
                     echo "description=${{github.event.deployment_status.description}}" >> $GITHUB_OUTPUT
                     echo "deployment_task=${{github.event.deployment.task}}" >> $GITHUB_OUTPUT
                     echo "deployment_prod_environment=${{github.event.deployment.production_environment}}" >> $GITHUB_OUTPUT
-                    echo "deployment_description=${{github.event.deployment.description}}" >> $GITHUB_OUTPUT                    
-                    echo $GITHUB_OUTPUT >> $GITHUB_STEP_SUMMARY
+                    echo "deployment_description=${{github.event.deployment.description}}" >> $GITHUB_OUTPUT
