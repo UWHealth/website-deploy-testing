@@ -19,3 +19,11 @@ jobs:
                     echo "deployment_task=${{github.event.deployment.task}}" >> $GITHUB_OUTPUT
                     echo "deployment_prod_environment=${{github.event.deployment.production_environment}}" >> $GITHUB_OUTPUT
                     echo "deployment_description=${{github.event.deployment.description}}" >> $GITHUB_OUTPUT
+
+               # figure out if PR is in draft, grab labels
+            -   name: Get PR number
+                id: get-pr-number
+                env:
+                    GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                run: | 
+                    gh pr list --json number,headRefName --jq '.[] | select(.headRefName=="${{ github.event.deployment.ref }}") | .number'
