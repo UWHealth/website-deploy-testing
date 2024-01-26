@@ -32,7 +32,7 @@ jobs:
                     GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                 run: |
                     PR_NUMBER=$(gh pr list --json number,headRefName --jq '.[] | select(.headRefName=="${{ github.event.deployment.ref }}") | .number')
-                    echo "pr_number='\"$PR_NUMBER\"'" >> $GITHUB_OUTPUT
+                    echo "pr_number=$PR_NUMBER" >> $GITHUB_OUTPUT
             
             -   name: Get PR labels
                 id: get-pr-labels
@@ -49,5 +49,5 @@ jobs:
                 env:
                     GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                 run: |
-                    PR_DRAFT=$(gh pr view ${{ steps.get-pr-number.outputs.pr_number }} --json draft --jq '.draft')
+                    PR_DRAFT=$(gh pr view ${{ steps.get-pr-number.outputs.pr_number }} --json draft --jq '.isDraft')
                     echo "pr_draft='\"$PR_DRAFT\"'" >> $GITHUB_OUTPUT
