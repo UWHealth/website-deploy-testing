@@ -27,24 +27,27 @@ jobs:
                # figure out if PR is in draft, grab labels
             -   name: Get PR number
                 id: get-pr-number
+                continue-on-error: true
                 env:
                     GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                 run: |
                     PR_NUMBER=$(gh pr list --json number,headRefName --jq '.[] | select(.headRefName=="${{ github.event.deployment.ref }}") | .number')
-                    echo "pr_number=\"$PR_NUMBER\"" >> $GITHUB_OUTPUT
+                    echo "pr_number='\"$PR_NUMBER\"'" >> $GITHUB_OUTPUT
             
             -   name: Get PR labels
                 id: get-pr-labels
+                continue-on-error: true
                 env:
                     GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                 run: |
                     PR_LABELS=$(gh pr view ${{ steps.get-pr-number.outputs.pr_number }} --json labels --jq '.labels[].name')
-                    echo "pr_labels=\"$PR_LABELS\"" >> $GITHUB_OUTPUT
+                    echo "pr_labels='\"$PR_LABELS\"'" >> $GITHUB_OUTPUT
 
             -   name: Get PR Draft State
                 id: get-pr-draft-state
+                continue-on-error: true
                 env:
                     GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                 run: |
                     PR_DRAFT=$(gh pr view ${{ steps.get-pr-number.outputs.pr_number }} --json draft --jq '.draft')
-                    echo "pr_draft=\"$PR_DRAFT\"" >> $GITHUB_OUTPUT
+                    echo "pr_draft='\"$PR_DRAFT\"'" >> $GITHUB_OUTPUT
