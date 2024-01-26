@@ -41,7 +41,7 @@ jobs:
                     GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                 run: |
                     PR_LABELS=$(gh pr view ${{ steps.get-pr-number.outputs.pr_number }} --json labels  | jq '.labels | @json' )
-                    echo "pr_labels=$PR_LABELS >> $GITHUB_OUTPUT
+                    echo "pr_labels=$PR_LABELS" >> $GITHUB_OUTPUT
 
             -   name: Get PR Draft State
                 id: get-pr-draft-state
@@ -50,4 +50,4 @@ jobs:
                     GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                 run: |
                     PR_DRAFT=$(gh pr view ${{ steps.get-pr-number.outputs.pr_number }} --json isDraft --jq '.isDraft')
-                    echo "pr_draft='\"$PR_DRAFT\"'" >> $GITHUB_OUTPUT
+                    echo "pr_draft=$PR_DRAFT" >> $GITHUB_OUTPUT
