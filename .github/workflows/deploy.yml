@@ -8,6 +8,10 @@ jobs:
         name: Output Deploy Status Information
         runs-on: ubuntu-latest
         steps:
+            -   uses: actions/checkout@v4
+                with:
+                    fetch-depth: 1
+
             -   name: Output Display
                 id: output-display
                 run: |
@@ -25,5 +29,5 @@ jobs:
                 id: get-pr-number
                 env:
                     GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                run: | 
+                run: |
                     gh pr list --json number,headRefName --jq '.[] | select(.headRefName=="${{ github.event.deployment.ref }}") | .number'
