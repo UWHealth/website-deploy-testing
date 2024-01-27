@@ -17,7 +17,7 @@ jobs:
                 id: output-display
                 run: |
                     echo "state=${{github.event.deployment_status.state}}" >> $GITHUB_OUTPUT
-                    echo "environment=${{github.event.deployment_status.environment}}" >> $GITHUB_OUTPUT
+                    echo "environment=\"${{github.event.deployment_status.environment}}\"" >> $GITHUB_OUTPUT
                     echo "log_url=${{github.event.deployment_status.log_url}}" >> $GITHUB_OUTPUT
                     echo "environment_url=${{github.event.deployment_status.environment_url}}" >> $GITHUB_OUTPUT
                     echo "description=${{github.event.deployment_status.description}}" >> $GITHUB_OUTPUT
