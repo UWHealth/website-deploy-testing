@@ -12,6 +12,7 @@ jobs:
                 with:
                     fetch-depth: 1
 
+                # output info about deployment and deployment_stautus
             -   name: Output Display
                 id: output-display
                 run: |
