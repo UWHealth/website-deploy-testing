@@ -1,0 +1,56 @@
+name: Display Deployment Details
+
+on: 
+    deployment_status
+
+jobs:
+    display:
+        name: Output Deploy Status Information
+        runs-on: ubuntu-latest
+        steps:
+            -   uses: actions/checkout@v4
+                with:
+                    fetch-depth: 1
+
+                # output info about deployment and deployment_stautus
+            -   name: Output Display
+                id: output-display
+                run: |
+                    echo "state=${{github.event.deployment_status.state}}" >> $GITHUB_OUTPUT
+                    environment=$(printf '%q' "${{github.event.deployment_status.environment}}")
+                    echo "environment=\"$environment\"" >> $GITHUB_OUTPUT
+                    echo "environment2=$environment" >> $GITHUB_OUTPUT
+                    echo "log_url=${{github.event.deployment_status.log_url}}" >> $GITHUB_OUTPUT
+                    echo "environment_url=${{github.event.deployment_status.environment_url}}" >> $GITHUB_OUTPUT
+                    echo "description=${{github.event.deployment_status.description}}" >> $GITHUB_OUTPUT
+                    echo "deployment_task=${{github.event.deployment.task}}" >> $GITHUB_OUTPUT
+                    echo "deployment_prod_environment=${{github.event.deployment.production_environment}}" >> $GITHUB_OUTPUT
+                    echo "deployment_description=${{github.event.deployment.description}}" >> $GITHUB_OUTPUT
+
+               # figure out if PR is in draft, grab labels
+            -   name: Get PR number
+                id: get-pr-number
+                continue-on-error: true
+                env:
+                    GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                run: |
+                    PR_NUMBER=$(gh pr list --json number,headRefName --jq '.[] | select(.headRefName=="${{ github.event.deployment.ref }}") | .number')
+                    echo "pr_number=$PR_NUMBER" >> $GITHUB_OUTPUT
+            
+            -   name: Get PR labels
+                id: get-pr-labels
+                continue-on-error: true
+                env:
+                    GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                run: |
+                    PR_LABELS=$(gh pr view ${{ steps.get-pr-number.outputs.pr_number }} --json labels  | jq '.labels | @json' )
+                    echo "pr_labels=$PR_LABELS" >> $GITHUB_OUTPUT
+
+            -   name: Get PR Draft State
+                id: get-pr-draft-state
+                continue-on-error: true
+                env:
+                    GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                run: |
+                    PR_DRAFT=$(gh pr view ${{ steps.get-pr-number.outputs.pr_number }} --json isDraft --jq '.isDraft')
+                    echo "pr_draft=$PR_DRAFT" >> $GITHUB_OUTPUT

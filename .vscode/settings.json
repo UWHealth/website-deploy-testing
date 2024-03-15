@@ -1,1 +1,6 @@
-{}
+{
+  "sonarlint.connectedMode.project": {
+    "connectionId": "UW Health Marketing",
+    "projectKey": "UWHealth_website-deploy-testing"
+  }
+}
